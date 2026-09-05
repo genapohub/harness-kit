@@ -12,7 +12,7 @@
 set -euo pipefail
 
 HARNESS_ROOT="$(cd "$(dirname "$0")/.." && pwd)"   # harness-kit 仓库根目录
-HARNESS_VERSION="v1.1"                             # 与 AGENTS.md 当前版本同步
+HARNESS_VERSION="v1.2"                             # 与 AGENTS.md 当前版本同步
 TODAY="$(date +%Y-%m-%d)"
 OWNER="$(git config user.name 2>/dev/null || echo "${USER:-owner}")"   # 责任人: 取本机 git 配置（分发友好，不写死）
 
@@ -90,6 +90,6 @@ echo "   根仓库: $(git log --oneline -1 | head -c 60)…  tag: harness-$HARNE
 echo "   剩余占位符: $LEFT 处"
 echo ""
 echo "手工待办（约 5 分钟）:"
-echo "  1. AGENTS.md 第一部分: 项目目标 / 目标用户 / 技术栈 / 当前阶段"
+echo "  1. AGENTS.md 第一部分: 项目目标 / 目标用户 / 技术栈 / 当前阶段 + 项目知识地图"
 echo "  2. AGENTS.md 第二部分: P1_阶段激活 按需勾选（product-plan / ux-design / data-analyst）"
 echo "  3. project-tracker.md: 「当前阶段总览」写一句话 + 清掉已完成任务/决策日志里的模板示例行"
