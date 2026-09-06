@@ -38,7 +38,7 @@
 触发场景：【所有改动 / 仅新功能 / 仅重构 / 仅测试】
 激活角色清单：                             # P0=常驻 / P1=按阶段激活 / P2=挂起；按你的团队角色体系定义，未勾选的角色不得被调度
   P0_常驻：【tech-lead-guide / frontend-dev-guide / backend-dev-guide / qa-testing-guide / devops-guide / team-orchestrator，按项目类型删减】
-  P1_阶段激活：【按阶段勾选：product-plan-guide（需求/迭代）/ ux-design-guide（UI 改版）/ data-analyst-guide（埋点/指标）】
+  P1_阶段激活：【按阶段勾选：product-plan-guide（需求/迭代）/ ui-designer-guide（UI 方案/视觉执行）/ data-analyst-guide（埋点/指标）】
   # 未勾选的角色 = 本项目未激活，orchestrator 不得调度；激活 P2 挂起角色前须先 refresh 白名单
 工具白名单：见 第六部分
 工具黑名单：见 第六部分
