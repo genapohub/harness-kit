@@ -12,7 +12,7 @@
 set -euo pipefail
 
 HARNESS_ROOT="$(cd "$(dirname "$0")/.." && pwd)"   # harness-kit 仓库根目录
-HARNESS_VERSION="v1.3"                             # 与 AGENTS.md 当前版本同步
+HARNESS_VERSION="v1.4"                             # 与 AGENTS.md 当前版本同步
 TODAY="$(date +%Y-%m-%d)"
 OWNER="$(git config user.name 2>/dev/null || echo "${USER:-owner}")"   # 责任人: 取本机 git 配置（分发友好，不写死）
 
