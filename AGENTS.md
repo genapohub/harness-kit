@@ -355,6 +355,11 @@ git push origin harness-v1.1
 每次打 tag 必须同步更新本节：
 
 ```markdown
+## harness-v1.9（2026-09-13）
+- README 重写为对外用户使用版
+- 明确 GitHub Template、直接克隆、已有项目复制三条使用路径
+- GitHub 仓库开启 Template repository
+
 ## harness-v1.8（2026-09-13）
 - 本地与远程仓库统一命名为 `ai-harness-kit`
 - 克隆地址切换为 `git@github.com:genapohub/ai-harness-kit.git`
@@ -421,4 +426,4 @@ git push origin harness-v1.0.1-revert
 ---
 
 > _维护原则：先骨架再追加细节。本模板先用默认值跑 2 周，再按实际踩坑迭代。_
-> _版本：v1.8（2026-09-13）· ai-harness-kit_
+> _版本：v1.9（2026-09-13）· ai-harness-kit_

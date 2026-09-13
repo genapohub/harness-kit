@@ -1,36 +1,73 @@
 # ai-harness-kit · AI 编程 Harness 项目根模板
 
 > 后续主线维护仓库：`ai-harness-kit`。
-> 目标是一件事：从 GitHub 克隆下来，目录本身就是项目根目录，不再额外执行装机脚本。
+> 目标是一件事：把 AI 编程治理层直接放进项目根目录，让 Claude Code / Cursor / GitHub Copilot / Kiro / Codex 在同一套规则下协作。
 
-## 一、怎么用
+## 一、它解决什么问题
 
-### 新项目
+`ai-harness-kit` 不是业务代码框架，而是一套项目根目录级 AI 编程治理模板。
+
+它把 4 类资产一次性放进项目：
+
+1. `AGENTS.md`：AI 行为宪法，约束角色、工作流、红线、review。
+2. `project-tracker.md`：项目状态单一事实源，记录 WIP、风险、决策、交接。
+3. `skills/` + `.ai/SKILLS.md`：项目可用角色技能库。
+4. `evals/` + 多工具适配文件：用回归检查和工具规则守住产出质量。
+
+## 二、对外用户怎么用
+
+### 路径 A：新项目，推荐用 GitHub Template
+
+适合：从零创建一个新业务项目。
+
+1. 打开仓库：[https://github.com/genapohub/ai-harness-kit](https://github.com/genapohub/ai-harness-kit)
+2. 点击 `Use this template`
+3. 创建你的业务项目仓库
+4. 克隆新业务仓库到本地
+5. 改完下面 3 个文件就可以开工：
+   - `AGENTS.md`：项目目标、目标用户、技术栈、AI 角色、红线
+   - `project-tracker.md`：当前阶段、WIP、风险、决策
+   - `.ai/SKILLS.md`：本项目启用哪些角色技能
+
+### 路径 B：新项目，直接克隆
+
+```bash
+git clone https://github.com/genapohub/ai-harness-kit.git your-project
+cd your-project
+git remote rename origin ai-harness-kit-template
+git remote add origin git@github.com:your-org/your-project.git
+```
+
+如果你已经配置 SSH，也可以：
 
 ```bash
 git clone git@github.com:genapohub/ai-harness-kit.git your-project
 ```
 
-克隆完成后，`your-project/` 就已经是带 AI 编程治理能力的项目根目录。
+克隆完成后，`your-project/` 就已经是带 AI 编程治理能力的项目根目录，不需要额外执行装机脚本。
 
-如果这是你的业务项目仓库，进入目录后把远端改成业务仓库：
+### 路径 C：已有项目，复制治理资产
 
-```bash
-cd your-project
-git remote rename origin governance-template
-git remote add origin git@github.com:your-org/your-project.git
+适合：项目已经存在，并且已经有自己的 `.git`。
+
+不要把本仓库直接 clone 到已有项目里面。把下面这些资产复制到已有项目根目录：
+
+```text
+AGENTS.md
+project-tracker.md
+SECURITY.md
+.ai/
+.claude/
+.cursor/
+.github/
+.kiro/
+skills/
+evals/
 ```
 
-更推荐在 GitHub 上把本仓库设置为 Template repository。以后新项目直接从模板创建，连改远端这一步都省掉。
+复制后先改 3 个入口文件：`AGENTS.md`、`project-tracker.md`、`.ai/SKILLS.md`。
 
-### 已有项目
-
-已有项目如果已经有 `.git`，不要把本仓库直接 clone 到里面。推荐两种方式：
-
-1. 用 GitHub Template 创建新仓库，再迁移业务代码。
-2. 从本仓库复制治理资产到已有项目根目录。
-
-## 二、克隆后自带什么
+## 三、项目结构
 
 ```text
 your-project/
@@ -48,13 +85,13 @@ your-project/
 └── docs/harness/              # 05 沉淀 + ai-harness-kit 主线迭代记录
 ```
 
-## 三、克隆后只需要改三处
+## 四、开工前只需要改三处
 
 1. `AGENTS.md`：项目目标、目标用户、技术栈、当前阶段。
 2. `project-tracker.md`：当前阶段总览、WIP、风险、决策日志。
 3. `.ai/SKILLS.md`：确认本项目启用哪些角色技能。
 
-## 四、默认能力
+## 五、不同 AI 工具怎么读
 
 | 能力 | 文件 |
 |---|---|
@@ -70,9 +107,38 @@ your-project/
 | 质量回归检查 | `evals/runner.py` |
 | 历史沉淀 | `docs/harness/` |
 
-## 五、版本
+使用建议：
 
-当前版本：`harness-v1.8`
+1. Claude Code / Codex：进入项目后先读 `AGENTS.md`、`project-tracker.md`、`.ai/SKILLS.md`。
+2. Cursor：自动读取 `.cursor/rules/harness.mdc`，同时把 `AGENTS.md` 作为项目规则源。
+3. GitHub Copilot：读取 `.github/copilot-instructions.md` 和 PR 模板。
+4. Kiro：读取 `.kiro/steering/harness.md`。
+5. 团队协作：每次重要变更都同步更新 `project-tracker.md`。
+
+## 六、质量检查
+
+日常使用不需要先跑脚本。需要验收 AI 产出时，可以运行：
+
+```bash
+python3 evals/runner.py . --since HEAD~1
+```
+
+检查范围包括：
+
+1. Harness 治理三件套是否落位。
+2. 是否有明显调试残留。
+3. 是否有常见密钥泄露。
+4. 新增 commit message 是否符合约定。
+
+## 七、版本
+
+当前版本：`harness-v1.9`
+
+v1.9 变更：
+
+1. README 重写为对外用户使用版。
+2. 明确 GitHub Template、直接克隆、已有项目复制三条使用路径。
+3. GitHub 仓库开启 Template repository。
 
 v1.8 变更：
 
@@ -93,7 +159,7 @@ v1.6 变更：
 2. 仓库升级为可直接克隆的项目根目录模板。
 3. 默认内置本地角色技能和多工具适配文件。
 
-## 六、维护原则
+## 八、维护原则
 
 1. 以后只维护 `ai-harness-kit`。
 2. 不再保留 `05-Harness` / `06-harness-kit` 多套分叉；`08-ai-dev-suite` 原始内容待备份恢复后补入 `ai-harness-kit`。
