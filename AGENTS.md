@@ -355,8 +355,13 @@ git push origin harness-v1.1
 每次打 tag 必须同步更新本节：
 
 ```markdown
+## harness-v1.8（2026-09-13）
+- 本地与远程仓库统一命名为 `ai-harness-kit`
+- 克隆地址切换为 `git@github.com:genapohub/ai-harness-kit.git`
+- README、AGENTS、project-tracker、SECURITY、evals 元信息统一更换为新名称
+
 ## harness-v1.7（2026-09-13）
-- 后续维护主线切到 `ai-governance-example`
+- 后续维护主线当时切到 `ai-governance-example`，v1.8 已统一更名为 `ai-harness-kit`
 - 使用方式收敛为 GitHub 直接克隆到项目根目录，不再要求执行装机脚本
 - README 去掉克隆后的自检命令，`scripts/` 仅作为维护工具保留
 
@@ -416,4 +421,4 @@ git push origin harness-v1.0.1-revert
 ---
 
 > _维护原则：先骨架再追加细节。本模板先用默认值跑 2 周，再按实际踩坑迭代。_
-> _版本：v1.7（2026-09-13）· ai-governance-example_
+> _版本：v1.8（2026-09-13）· ai-harness-kit_
