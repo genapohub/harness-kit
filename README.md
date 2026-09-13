@@ -15,7 +15,7 @@
 |---|---|---|
 | AI 不了解项目就盲改代码 | 改坏架构、破坏约定 | `AGENTS.md` 项目宪法：进入项目必须先读身份 YAML，AI 能做/不能做/怎么干活写得明明白白 |
 | AI 调用不该调的工具（rm -rf、碰 .env、push main） | 不可逆事故 | 红线清单 + 工具白名单：越权即拒绝，不许"勉强执行" |
-| AI 产出质量悄悄劣化没人发现 | 技术债滚雪球 | evals 回归套件：13 个 case 定期跑，劣化即拦截 |
+| AI 产出质量悄悄劣化没人发现 | 技术债滚雪球 | evals 回归套件：14 个 case 定期跑，劣化即拦截 |
 
 一句话：**Framework 解决"AI 怎么写代码"，harness-kit 解决"AI 怎么安全、可控、可回滚地在你的项目里干活"。**
 
@@ -26,13 +26,27 @@ git clone https://github.com/genapohub/harness-kit.git
 bash harness-kit/07-Kit/install.sh /path/to/你的项目
 ```
 
+需要把本机 `00-Skills汇总` 的角色技能一并装入项目：
+
+```bash
+bash harness-kit/07-Kit/install.sh /path/to/你的项目 --with-local-skills
+```
+
+需要同时生成 Claude / Cursor / GitHub Copilot / Kiro 适配文件：
+
+```bash
+bash harness-kit/07-Kit/install.sh /path/to/你的项目 --with-local-skills --with-adapters
+```
+
 就这两步。脚本会自动完成：
 
 1. 三件套落位到项目根目录：`AGENTS.md` + `project-tracker.md` + `SECURITY.md`
 2. 占位符自动填充（项目名、日期、责任人取自你的 `git config user.name`、P0 激活角色）
 3. 模板里指向本仓库的引用改写为你机器上的绝对路径（不断链）
 4. 检测项目内嵌套的独立 git 仓库并从根仓库隔离（.gitignore，互不污染）
-5. `git init`（main 分支）+ 初始 commit + `harness-vX.Y` tag——Day1 版本控制
+5. 可选复制本地 `00-Skills汇总` 到项目 `skills/`，并生成 `.ai/SKILLS.md`
+6. 可选生成 Claude / Cursor / GitHub Copilot / Kiro 适配文件
+7. `git init`（main 分支）+ 初始 commit + `harness-vX.Y` tag——Day1 版本控制
 
 装机完成后按脚本输出的手工待办补 3 处（约 5 分钟）：项目身份 YAML、按需勾选 P1 角色、tracker 阶段总览一句话。
 
@@ -45,8 +59,11 @@ bash harness-kit/07-Kit/install.sh /path/to/你的项目
 ├── AGENTS.md                  ← 宪法：AI 能做什么/红线/10 步工作流（所有 AGENTS.md 系工具自动读取）
 ├── project-tracker.md         ← 状态单一事实源：WIP/决策日志/Agent 间交接上下文
 ├── SECURITY.md                ← 安全子法：密钥分级/数据脱敏/模型路由合规
+├── skills/                    ← 可选：本地 00-Skills汇总 安装后的角色技能
+├── .ai/SKILLS.md              ← 可选：项目内技能索引
+├── .claude/ .cursor/ .github/ .kiro/ ← 可选：多 AI 工具适配文件
 ├── .gitignore                 ← .DS_Store + AI 工具记忆目录 + 嵌套仓库隔离
-└── .git（tag: harness-v1.1）  ← 治理资产从第一天进版本控制
+└── .git（tag: harness-v1.5）  ← 治理资产从第一天进版本控制
 ```
 
 | 文件 | 谁读 | 什么时候 |
@@ -66,7 +83,7 @@ bash harness-kit/07-Kit/install.sh /path/to/你的项目
 
 ## 五、evals：AI 产出物的质量门禁
 
-`04-Evals/regression-cases.json` 定义 13 个回归 case / 5 大类（代码质量、规范遵守、文档质量、AI 协作、安全合规），`runner.py` 自动化其中 3 个：
+`04-Evals/regression-cases.json` 定义 14 个回归 case / 6 大类（Harness 治理、代码质量、规范遵守、文档质量、AI 协作、安全合规），`runner.py` 自动化其中 4 个：
 
 ```bash
 # 全量扫描，建立项目质量基线（首个结果就是你的基线）
@@ -76,6 +93,7 @@ python3 04-Evals/runner.py /path/to/你的代码仓库
 python3 04-Evals/runner.py /path/to/你的代码仓库 --since HEAD~1
 ```
 
+- **harness-001**：项目根目录已落位 `AGENTS.md` / `project-tracker.md` / `SECURITY.md`
 - **code-002**：应用代码无遗留调试残留（console.log / debugger / print / breakpoint；测试脚本与 CLI 工具自动豁免）
 - **security-001**：无硬编码密钥 + 密钥文件未被 git 跟踪
 - **spec-003**：commit message 符合 conventional commits + 首行 ≤72 字符
@@ -89,7 +107,7 @@ AGENTS.md 第二部分有「激活角色清单」，按 P0/P1/P2 三档管理：
 | 档位 | 含义 | 示例 |
 |---|---|---|
 | **P0 常驻** | 项目装机即激活 | tech-lead / frontend / backend / qa / devops / orchestrator |
-| **P1 阶段激活** | 进入对应阶段才拉起 | product-plan（需求/迭代）、ux-design（UI 改版）、data-analyst（埋点分析） |
+| **P1 阶段激活** | 进入对应阶段才拉起 | product-plan（需求/迭代）、ui-designer（UI 改版）、data-analyst（埋点分析） |
 | **P2 挂起** | 用不到就不写进宪法 | 按你的团队角色体系定义 |
 
 **为什么这样设计**：规范越长，AI 遵守率越低。项目宪法只约束真正会拉起的角色，未激活角色不占上下文——这是宪法保持精简的关键机制。角色名完全按你的团队自定义，删改清单即可。
@@ -123,8 +141,10 @@ harness-kit/
 ├── 02-规范/AGENTS.md            # 项目宪法模板（10 部分 + 3 附录）
 ├── 02-规范/SECURITY.md          # 安全合规子法模板
 ├── 03-状态/project-tracker.md   # 状态持久化模板
-├── 04-Evals/regression-cases.json  # 13 个回归 case / 5 类
-├── 04-Evals/runner.py           # 最小 evals runner（v0.2）
+├── 04-Evals/regression-cases.json  # 14 个回归 case / 6 类
+├── 04-Evals/runner.py           # 最小 evals runner（v0.3）
+├── 05-Skills/README.md          # 本地角色技能接入说明
+├── 06-Adapters/                 # Claude / Cursor / GitHub Copilot / Kiro 适配模板
 └── 07-Kit/install.sh            # 一键装机脚本
 ```
 

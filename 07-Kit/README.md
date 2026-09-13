@@ -6,6 +6,9 @@
 
 ```bash
 bash install.sh /path/to/项目
+bash install.sh /path/to/项目 --with-local-skills
+bash install.sh /path/to/项目 --with-local-skills --with-adapters
+bash install.sh /path/to/项目 --with-local-skills --skills-source /path/to/00-Skills汇总
 ```
 
 ## 脚本自动完成
@@ -15,6 +18,8 @@ bash install.sh /path/to/项目
 | 三件套落位 | AGENTS.md / project-tracker.md / SECURITY.md → 项目根目录 |
 | 占位符填充 | 项目名、日期、责任人、P0 激活角色（6 个）自动填入 |
 | 路径断链修复 | 模板里指向本仓库的相对引用改写为你机器上的绝对路径 |
+| 本地 Skills 接入 | 可选把 `00-Skills汇总` 中包含 `SKILL.md` 的技能复制到目标项目 `skills/` |
+| 多工具适配 | 可选生成 Claude / Cursor / GitHub Copilot / Kiro 适配文件 |
 | 嵌套仓库隔离 | 项目内的独立 git 仓库（如 04-前后端代码/xxx）自动加入 .gitignore，代码仓库继续独立管理 |
 | Day1 版本控制 | git init（main 分支）+ 初始 commit + `harness-vX.Y` tag |
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Harness 最小 evals runner · v0.2
+"""Harness 最小 evals runner · v0.3
 
-对应 regression-cases.json 中可自动化的 3 个 case:
+对应 regression-cases.json 中可自动化的 4 个 case:
+  harness-001  Harness 治理三件套已落位
   code-002     无遗留调试代码（console.log / debugger / print( / breakpoint）
   security-001 无密钥泄露（硬编码密钥模式 + .env 被 git 跟踪）
   spec-003     commit message 规范（conventional commits 前缀 + 首行长度）
@@ -9,6 +10,9 @@
 用法:
   python3 runner.py /path/to/repo                     # 终端摘要 + JSON 报告落盘
   python3 runner.py /path/to/repo --since HEAD~1      # spec-003 增量模式: 只查最近 1 个 commit
+
+v0.3 变更:
+  - 增加 harness-001: 检查项目根目录 AGENTS.md / project-tracker.md / SECURITY.md 是否存在
 
 v0.2 变更（来自真实项目首扫实战反馈）:
   - code-002 豁免 test_*.py / deploy/ / migrate_* / scripts/ —— 测试与 CLI 脚本的
@@ -31,7 +35,7 @@ from datetime import date
 from pathlib import Path
 from typing import Optional
 
-RUNNER_VERSION = "0.2"
+RUNNER_VERSION = "0.3"
 
 CODE_EXTS = {".py", ".js", ".ts", ".vue", ".wxml", ".json"}
 SKIP_DIRS = {".git", "node_modules", "dist", "build", "__pycache__",
@@ -63,6 +67,16 @@ SECRET_PATTERNS = [
 
 CONVENTIONAL_RE = re.compile(
     r"^(feat|fix|refactor|docs|test|chore|style|perf|build|ci)(\([^)]*\))?: \S")
+
+
+def scan_harness_files(repo: Path):
+    """harness-001: 项目根目录治理三件套必须落位。"""
+    required = ["AGENTS.md", "project-tracker.md", "SECURITY.md"]
+    return [
+        {"file": name, "line": 0, "type": "missing_file", "match": "Harness 治理文件缺失"}
+        for name in required
+        if not (repo / name).is_file()
+    ]
 
 
 def list_code_files(repo: Path):
@@ -154,6 +168,7 @@ def main():
         sys.exit(f"❌ 目录不存在: {repo}")
 
     cases = [
+        {"id": "harness-001", "name": "Harness 治理三件套已落位", "hits": scan_harness_files(repo)},
         {"id": "code-002", "name": "无遗留调试代码", "hits": scan_debug(repo)},
         {"id": "security-001", "name": "无密钥泄露", "hits": scan_secrets(repo)},
         {"id": "spec-003", "name": "commit message 规范", "hits": scan_commits(repo, args.since)},
@@ -181,7 +196,8 @@ def main():
         if len(c["hits"]) > 10:
             print(f"     … 其余 {len(c['hits']) - 10} 处见 JSON 报告")
     passed = report["summary"]["pass"]
-    print(f"--- 结果: {passed}/3 pass" + ("（基线已建立，建议按告警清单整改后复跑）" if passed < 3 else "，全绿") + "\n")
+    total = len(cases)
+    print(f"--- 结果: {passed}/{total} pass" + ("（基线已建立，建议按告警清单整改后复跑）" if passed < total else "，全绿") + "\n")
 
     out = Path(args.json_out) if args.json_out else \
         Path(__file__).parent / "reports" / f"{date.today().isoformat()}-{repo.name}.json"

@@ -307,6 +307,8 @@ Code Review 沟通：
 ├── project-tracker.md = 任务状态持久化（装机落位于本目录）
 ├── SECURITY.md = 密钥 / 脱敏 / 合规三件套（装机落位于本目录）
 ├── 04-Evals/regression-cases.json = AI 产出物回归测试基线（本仓库）
+├── 05-Skills/README.md = 本地 00-Skills汇总 接入说明（装机可选）
+├── 06-Adapters/ = Claude / Cursor / GitHub Copilot / Kiro 适配模板（装机可选）
 └── 07-Kit/install.sh = 一键装机脚本（本仓库）
 ```
 
@@ -352,6 +354,11 @@ git push origin harness-v1.1
 每次打 tag 必须同步更新本节：
 
 ```markdown
+## harness-v1.5（2026-09-13）
+- install.sh 新增 `--with-local-skills`，可把本机 `00-Skills汇总` 中包含 SKILL.md 的角色技能安装到项目 `skills/`
+- install.sh 新增 `--with-adapters`，可选生成 Claude / Cursor / GitHub Copilot / Kiro 适配文件
+- regression-cases.json 新增 harness-001，runner.py 升级为 v0.3，检查项目根目录治理三件套是否落位
+
 ## harness-v1.4（2026-09-06）
 - 第二部分新增「角色状态」机制：一人双角色（PM+Dev）开工首句声明本轮脑，换脑显式化 + tracker 留痕，禁止静默混用（PM 文档夹代码决策 / Dev 代码夹需求变更 = 双向漂移）
 - 第五部分工作流开头加双角色指引行（声明脑 → 再走 10 步流程）
@@ -398,4 +405,4 @@ git push origin harness-v1.0.1-revert
 ---
 
 > _维护原则：先骨架再追加细节。本模板先用默认值跑 2 周，再按实际踩坑迭代。_
-> _版本：v1.4（2026-09-06）· harness-kit_
+> _版本：v1.5（2026-09-13）· harness-kit_

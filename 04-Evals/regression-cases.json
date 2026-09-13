@@ -1,6 +1,6 @@
 {
  "version": "1.0",
- "last_updated": "2026-09-06",
+ "last_updated": "2026-09-13",
  "schema_version": "1.0",
  "purpose": "AI 编程产出物回归测试基线。每角色 3-5 个固定 case,跑过即通过,失败即回归。",
  "usage": {
@@ -11,6 +11,24 @@
   "update_frequency": "每季度一次,新增重要功能时同步加 case"
  },
  "categories": [
+  {
+   "category": "Harness治理",
+   "cases": [
+    {
+     "id": "harness-001",
+     "name": "Harness 治理三件套已落位",
+     "scope": "所有装机项目",
+     "input": "对项目根目录运行 Harness 装机后执行 evals",
+     "expected": {
+      "has_agents_md": true,
+      "has_project_tracker": true,
+      "has_security_md": true
+     },
+     "check_method": "检查 AGENTS.md / project-tracker.md / SECURITY.md 是否存在",
+     "rationale": "三件套缺一项，项目级 AI 编程治理就不闭环"
+    }
+   ]
+  },
   {
    "category": "代码质量",
    "cases": [
