@@ -356,7 +356,7 @@ git push origin harness-v1.1
 
 ```markdown
 ## harness-v1.7（2026-09-13）
-- 后续维护主线切到 `09-ai-governance-example`
+- 后续维护主线切到 `ai-governance-example`
 - 使用方式收敛为 GitHub 直接克隆到项目根目录，不再要求执行装机脚本
 - README 去掉克隆后的自检命令，`scripts/` 仅作为维护工具保留
 
@@ -416,4 +416,4 @@ git push origin harness-v1.0.1-revert
 ---
 
 > _维护原则：先骨架再追加细节。本模板先用默认值跑 2 周，再按实际踩坑迭代。_
-> _版本：v1.7（2026-09-13）· 09-ai-governance-example_
+> _版本：v1.7（2026-09-13）· ai-governance-example_

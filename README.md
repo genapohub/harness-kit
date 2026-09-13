@@ -1,6 +1,6 @@
-# 09-ai-governance-example · AI 编程治理项目根模板
+# ai-governance-example · AI 编程治理项目根模板
 
-> 后续主线维护目录：`09-ai-governance-example`。  
+> 后续主线维护目录：`ai-governance-example`。
 > 目标是一件事：从 GitHub 克隆下来，目录本身就是项目根目录，不再额外执行装机脚本。
 
 ## 一、怎么用
@@ -76,7 +76,7 @@ your-project/
 
 v1.7 变更：
 
-1. 后续维护主线切到 `09-ai-governance-example`。
+1. 后续维护主线切到 `ai-governance-example`。
 2. 使用方式收敛为“直接克隆到项目根目录”，不再要求执行装机命令。
 3. README 去掉克隆后的自检命令，把脚本降为维护工具。
 4. 标记 08 原始目录待备份恢复后再补融合。
@@ -89,8 +89,8 @@ v1.6 变更：
 
 ## 六、维护原则
 
-1. 以后只维护 `09-ai-governance-example`。
-2. 不再保留 `05-Harness` / `06-harness-kit` 多套分叉；`08-ai-dev-suite` 原始内容待备份恢复后补入 09。
+1. 以后只维护 `ai-governance-example`。
+2. 不再保留 `05-Harness` / `06-harness-kit` 多套分叉；`08-ai-dev-suite` 原始内容待备份恢复后补入 `ai-governance-example`。
 3. 新项目优先用 GitHub Template 创建。
 4. 规则、技能、evals、适配文件都跟项目根目录一起进入版本控制。
 5. 每次稳定变更都更新 `AGENTS.md` 版本段，并打 `harness-vX.Y` tag。
