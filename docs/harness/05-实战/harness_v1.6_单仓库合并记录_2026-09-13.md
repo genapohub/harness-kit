@@ -2,9 +2,9 @@
 
 ## 结论
 
-`05-Harness` 与 `06-harness-kit` 合并为单仓库主线：以后只维护 `06-harness-kit`。
+`05-Harness` 与 `06-harness-kit` 合并为直接克隆模板。后续主线已在 v1.7 修正为 `09-ai-governance-example`。
 
-合并后的 `06-harness-kit` 不再是“装机脚本仓库”，而是 GitHub 可直接克隆的项目根目录模板。
+合并后的模板不再是“装机脚本仓库”，而是 GitHub 可直接克隆的项目根目录模板。
 
 ## 为什么合并
 
@@ -56,7 +56,7 @@ git remote add origin git@github.com:your-org/your-project.git
 
 ## 后续维护原则
 
-1. 不再恢复 `05-Harness` / `08-ai-dev-suite` 分叉目录。
-2. 后续只在 `06-harness-kit` 修改规则、技能、evals、适配文件。
+1. 不再恢复 `05-Harness` / `06-harness-kit` / `08-ai-dev-suite` 分叉目录。
+2. 后续只在 `09-ai-governance-example` 修改规则、技能、evals、适配文件。
 3. 每次治理规则变更都更新 `AGENTS.md` 版本段。
 4. 每次稳定变更都打 `harness-vX.Y` tag。

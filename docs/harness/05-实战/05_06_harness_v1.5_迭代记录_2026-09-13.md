@@ -1,5 +1,7 @@
 # 05/06 Harness v1.5 迭代记录
 
+> 历史记录：本文件记录 v1.5 当时的判断。v1.7 已修正为以后只维护 `09-ai-governance-example`，并取消克隆后的装机步骤。
+
 ## 结论
 
 本次放弃维护 `09-ai-governance-example` 和 `10-ai-governance-kit-pro` 两个试验目录，回到 `05-Harness` / `06-harness-kit` 主线迭代。

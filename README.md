@@ -1,48 +1,36 @@
-# harness-kit · 可直接克隆的 AI 编程治理项目模板
+# 09-ai-governance-example · AI 编程治理项目根模板
 
-> 这是一个 GitHub 模板仓库形态的 Harness：克隆后，项目根目录天然带 `AGENTS.md`、`project-tracker.md`、`SECURITY.md`、`skills/`、`evals/` 和多 AI 工具适配文件。
+> 后续主线维护目录：`09-ai-governance-example`。  
+> 目标是一件事：从 GitHub 克隆下来，目录本身就是项目根目录，不再额外执行装机脚本。
 
-## 一、推荐用法
+## 一、怎么用
 
 ### 新项目
 
-推荐在 GitHub 上把本仓库设置为 Template repository，然后用模板创建你的业务仓库。这样新仓库的 `origin` 天然就是业务仓库，不会指回 harness-kit。
-
-如果直接 clone：
-
 ```bash
 git clone git@github.com:genapohub/harness-kit.git your-project
+```
+
+克隆完成后，`your-project/` 就已经是带 AI 编程治理能力的项目根目录。
+
+如果这是你的业务项目仓库，进入目录后把远端改成业务仓库：
+
+```bash
 cd your-project
-git remote rename origin harness-template
+git remote rename origin governance-template
 git remote add origin git@github.com:your-org/your-project.git
 ```
 
-然后补齐：
-
-1. `AGENTS.md` 第一部分：项目目标、目标用户、技术栈、当前阶段。
-2. `project-tracker.md` 当前阶段总览、WIP、风险、决策日志。
-3. `.ai/SKILLS.md`：确认本项目真正启用哪些角色技能。
+更推荐在 GitHub 上把本仓库设置为 Template repository。以后新项目直接从模板创建，连改远端这一步都省掉。
 
 ### 已有项目
 
-已有项目不建议直接把 Git 仓库 clone 到根目录，容易和现有 `.git` 冲突。建议用 GitHub 模板开新仓库后迁移业务代码，或手动复制本仓库中的治理资产：
+已有项目如果已经有 `.git`，不要把本仓库直接 clone 到里面。推荐两种方式：
 
-```text
-AGENTS.md
-project-tracker.md
-SECURITY.md
-.ai/
-.claude/
-.cursor/
-.github/
-.kiro/
-skills/
-evals/
-docs/harness/
-scripts/
-```
+1. 用 GitHub Template 创建新仓库，再迁移业务代码。
+2. 从本仓库复制治理资产到已有项目根目录。
 
-## 二、目录结构
+## 二、克隆后自带什么
 
 ```text
 your-project/
@@ -54,32 +42,17 @@ your-project/
 ├── .cursor/rules/harness.mdc  # Cursor 项目规则
 ├── .github/                   # Copilot 指令 + PR 模板
 ├── .kiro/steering/harness.md  # Kiro steering
-├── skills/                    # 从本地 00-Skills汇总 同步来的角色技能
+├── skills/                    # 本地角色技能库，默认内置 16 个技能
 ├── evals/                     # AI 产出质量回归检查
-├── scripts/                   # 本地检查 / 技能刷新脚本
-└── docs/harness/              # 05-Harness 历史调研、实战、工具链沉淀
+├── scripts/                   # 维护脚本，日常使用无需先执行
+└── docs/harness/              # 05 沉淀 + 09 主线迭代记录
 ```
 
-## 三、日常命令
+## 三、克隆后只需要改三处
 
-运行 Harness 自检：
-
-```bash
-bash scripts/harness-check.sh
-```
-
-刷新本地 Skills：
-
-```bash
-bash scripts/refresh-skills.sh /Users/macos/Downloads/WorkBuddy/日常办公/00-Skills汇总
-```
-
-直接跑 evals：
-
-```bash
-python3 evals/runner.py .
-python3 evals/runner.py . --since HEAD~1
-```
+1. `AGENTS.md`：项目目标、目标用户、技术栈、当前阶段。
+2. `project-tracker.md`：当前阶段总览、WIP、风险、决策日志。
+3. `.ai/SKILLS.md`：确认本项目启用哪些角色技能。
 
 ## 四、默认能力
 
@@ -99,19 +72,25 @@ python3 evals/runner.py . --since HEAD~1
 
 ## 五、版本
 
-当前版本：`harness-v1.6`
+当前版本：`harness-v1.7`
+
+v1.7 变更：
+
+1. 后续维护主线切到 `09-ai-governance-example`。
+2. 使用方式收敛为“直接克隆到项目根目录”，不再要求执行装机命令。
+3. README 去掉克隆后的自检命令，把脚本降为维护工具。
+4. 标记 08 原始目录待备份恢复后再补融合。
 
 v1.6 变更：
 
 1. 合并 `05-Harness` 母体资料到 `docs/harness/`。
-2. 删除 05/08 分叉方向，后续只维护 `06-harness-kit`。
-3. 仓库升级为可直接克隆的项目根目录模板。
-4. 默认内置本地角色技能和多工具适配文件。
+2. 仓库升级为可直接克隆的项目根目录模板。
+3. 默认内置本地角色技能和多工具适配文件。
 
-## 六、原则
+## 六、维护原则
 
-1. 新项目优先用 GitHub Template，不再跑安装脚本。
-2. 已有项目谨慎直接 clone，避免覆盖现有 Git 仓库。
-3. 治理资产进入项目第一天就进版本控制。
-4. Skills 不再散落在外部目录，项目根目录自带可读技能索引。
-5. 任何 Harness 规则变更都要更新 `AGENTS.md` 版本段，并打 `harness-vX.Y` tag。
+1. 以后只维护 `09-ai-governance-example`。
+2. 不再保留 `05-Harness` / `06-harness-kit` 多套分叉；`08-ai-dev-suite` 原始内容待备份恢复后补入 09。
+3. 新项目优先用 GitHub Template 创建。
+4. 规则、技能、evals、适配文件都跟项目根目录一起进入版本控制。
+5. 每次稳定变更都更新 `AGENTS.md` 版本段，并打 `harness-vX.Y` tag。
